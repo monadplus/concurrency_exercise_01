@@ -33,9 +33,7 @@ where
             Poll::Ready(Ok(x)) => Poll::Ready(Ok(x)),
             Poll::Ready(Err(x)) => match b.try_poll_unpin(cx) {
                 Poll::Ready(Ok(x)) => Poll::Ready(Ok(x)),
-                Poll::Ready(Err(_)) => {
-                    Poll::Ready(Err(x))
-                }
+                Poll::Ready(Err(_)) => Poll::Ready(Err(x)),
                 Poll::Pending => {
                     self.inner = Some((a, b));
                     Poll::Pending
@@ -56,7 +54,6 @@ where
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -64,16 +61,13 @@ mod tests {
 
     #[tokio::test]
     async fn test_try_at_most_one() {
-        let r: Result<usize, String> =
-            try_at_most_one(ok(0), ok(1)).await;
+        let r: Result<usize, String> = try_at_most_one(ok(0), ok(1)).await;
         assert_eq!(r, Ok(0));
 
-        let r: Result<usize, String> =
-            try_at_most_one(err("Bad".to_string()), ok(0)).await;
+        let r: Result<usize, String> = try_at_most_one(err("Bad".to_string()), ok(0)).await;
         assert_eq!(r, Ok(0));
 
-        let r: Result<usize, String> =
-            try_at_most_one(ok(0), err("Bad".to_string())).await;
+        let r: Result<usize, String> = try_at_most_one(ok(0), err("Bad".to_string())).await;
         assert_eq!(r, Ok(0));
 
         let r: Result<usize, String> =

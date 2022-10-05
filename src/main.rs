@@ -7,8 +7,8 @@ TODO
 -
 */
 
+mod try_all;
 mod try_at_most_one;
 
 #[tokio::main]
-async fn main() {
-}
+async fn main() {}
