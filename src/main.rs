@@ -22,6 +22,6 @@ async fn main() {
     ];
     match solution::Solution0::solve(repositories).await {
         None => println!("All downloads failed!"),
-        Some(binary) => println!("Binary {binary:?} downloaded"),
+        Some(binary) => println!("{binary} downloaded"),
     }
 }
