@@ -1,10 +1,8 @@
-mod try_all;
-#[allow(dead_code)]
-mod try_at_most_one;
-
 use thiserror::Error;
 use tokio::time;
 use try_all::try_all;
+
+mod try_all;
 
 #[derive(Error, Debug)]
 pub enum ServerError {
